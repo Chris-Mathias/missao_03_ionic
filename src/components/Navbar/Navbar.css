@@ -1,0 +1,33 @@
+.title:hover {
+    cursor: pointer;
+}
+
+ion-toolbar {
+    display: flex;
+    justify-content: space-between;
+    --background: #121212;
+    height: 64px;
+}
+
+.logoTitle {
+    padding-left: 4px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.containerButton {
+    margin-right: 8px;
+}
+
+.buttonRight {
+    height: 44px;
+    width: 44px;
+}
+
+.menuDots {
+    font-size: 16px;
+}
+
+.userButton {
+    font-size: 24px;
+}
