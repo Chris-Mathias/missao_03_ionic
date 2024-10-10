@@ -1,0 +1,17 @@
+.title:hover {
+    cursor: pointer;
+}
+
+.logo {
+    display: flex;
+    cursor: pointer;
+}
+
+.logoIcon {
+    height: 24px;
+    margin-left: 8px;
+}
+
+.logoTitle {
+    padding-left: 8px;
+}
