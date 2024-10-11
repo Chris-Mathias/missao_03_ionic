@@ -1,0 +1,26 @@
+.item {
+    display: flex;
+    justify-content: space-between;
+    height: 64px;
+    font-size: 14px;
+}
+
+.menuTitle {
+    font-size: 20px;
+    padding-left: 28px;
+    cursor: pointer;
+}
+
+.menuClasses {
+    font-size: 12px;
+    padding-left: 28px;
+}
+
+.icon {
+    margin: 12px 16px 12px 12px;
+}
+
+.avatar {
+    height: 36px;
+    width: 36px;
+}

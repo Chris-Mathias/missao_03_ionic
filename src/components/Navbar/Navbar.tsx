@@ -10,19 +10,16 @@ import {
     IonIcon,
     IonButton,
 } from "@ionic/react";
-import {
-    personCircleOutline,
-    ellipsisVertical,
-} from "ionicons/icons";
+import { personCircleOutline, ellipsisVertical } from "ionicons/icons";
+
+import Menu from "./Menu/Menu";
 import "./Navbar.css";
 
 export default function Navbar() {
     return (
         <>
             <IonMenu contentId="main-content">
-                <IonContent className="ion-padding">
-                    This is the menu content.
-                </IonContent>
+                <Menu />
             </IonMenu>
             <IonPage id="main-content">
                 <IonHeader>
@@ -34,12 +31,18 @@ export default function Navbar() {
                             Google Classroom
                         </IonTitle>
                         <IonButtons slot="primary" className="containerButton">
-                            <IonButton shape="round" className="buttonRight menuDots">
+                            <IonButton
+                                shape="round"
+                                className="buttonRight menuDots"
+                            >
                                 <IonIcon icon={ellipsisVertical}></IonIcon>
                             </IonButton>
                         </IonButtons>
                         <IonButtons slot="secondary">
-                            <IonButton shape="round" className="buttonRight userButton">
+                            <IonButton
+                                shape="round"
+                                className="buttonRight userButton"
+                            >
                                 <IonIcon icon={personCircleOutline}></IonIcon>
                             </IonButton>
                         </IonButtons>

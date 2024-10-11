@@ -2,5 +2,6 @@
 http://ionicframework.com/docs/theming/ */
 
 :root {
-    --ion-toolbar-background: #f4f4f4;
+    --ion-item-background: #121212 !important;
+    --ion-toolbar-background: #121212 !important;
 }

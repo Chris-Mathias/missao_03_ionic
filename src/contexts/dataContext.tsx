@@ -1,16 +1,37 @@
-import { createContext, useState, useContext, useEffect } from "react";
-import { useModal } from "./modalContext";
+import { createContext, useState, useContext, useEffect, ReactNode, ChangeEvent, FormEvent } from "react";
 
-const DataContext = createContext();
+interface FormData {
+    title: string;
+    subtitle: string;
+    teacher: string;
+    pfp: string;
+    bg: string;
+}
 
-export const DataProvider = ({ children }) => {
+interface DataContextType {
+    data: any;
+    formData: FormData;
+    handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+    handleDelete: (id: number) => Promise<void>;
+    setFormEmpty: () => void;
+}
 
-    const [data, setData] = useState(null);
-    const [count, setCount] = useState(0);
-    const { toggleModal } = useModal();
+const DataContext = createContext<DataContextType | undefined>(undefined);
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
+interface DataProviderProps {
+    children: ReactNode;
+}
+
+export const DataProvider = ({ children }: DataProviderProps) => {
+
+    const [data, setData] = useState<any>(null);
+    const [count, setCount] = useState<number>(0);
 
     useEffect(() => {
-        fetch("http://localhost:3000/turmas")
+        fetch(`${apiUrl}/turmas`)
             .then((response) => response.json())
             .then((data) => {
                 setData(data);
@@ -18,7 +39,7 @@ export const DataProvider = ({ children }) => {
             .catch((error) => console.error("Erro ao buscar os dados:", error));
     }, [count]);
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         title: "",
         subtitle: "",
         teacher: "",
@@ -34,20 +55,20 @@ export const DataProvider = ({ children }) => {
             pfp: "",
             bg: "",
         });
-    }
+    };
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:3000/turmas", {
+            const response = await fetch(`${apiUrl}/turmas`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -70,13 +91,12 @@ export const DataProvider = ({ children }) => {
 
         setCount(count + 1);
         setFormEmpty();
-        toggleModal();
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id: number) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/turmas/${id}`,
+                `${apiUrl}/turmas${id}`,
                 {
                     method: "DELETE",
                 }
@@ -101,6 +121,12 @@ export const DataProvider = ({ children }) => {
             {children}
         </DataContext.Provider>
     );
-}
+};
 
-export const useData = () => useContext(DataContext);
+export const useData = (): DataContextType => {
+    const context = useContext(DataContext);
+    if (!context) {
+        throw new Error("useData must be used within a DataProvider");
+    }
+    return context;
+};
