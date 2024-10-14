@@ -1,4 +1,26 @@
-import { createContext, useState, useContext, useEffect, ReactNode, ChangeEvent, FormEvent } from "react";
+import {
+    createContext,
+    useState,
+    useContext,
+    useEffect,
+    ReactNode,
+    ChangeEvent,
+    FormEvent,
+} from "react";
+import { Preferences } from "@capacitor/preferences";
+
+export const saveApiUrl = async (url: string) => {
+    await Preferences.set({
+        key: "api_url",
+        value: url,
+    });
+    console.log("URL da API salva com sucesso.");
+};
+
+const loadApiUrl = async () => {
+    const { value } = await Preferences.get({ key: "api_url" });
+    return value || "http://localhost:3000";
+};
 
 interface FormData {
     title: string;
@@ -15,18 +37,18 @@ interface DataContextType {
     handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
     handleDelete: (id: number) => Promise<void>;
     setFormEmpty: () => void;
+    saveApiUrl: (url: string) => Promise<void>;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = loadApiUrl();
 
 interface DataProviderProps {
     children: ReactNode;
 }
 
 export const DataProvider = ({ children }: DataProviderProps) => {
-
     const [data, setData] = useState<any>(null);
     const [count, setCount] = useState<number>(0);
 
@@ -95,12 +117,9 @@ export const DataProvider = ({ children }: DataProviderProps) => {
 
     const handleDelete = async (id: number) => {
         try {
-            const response = await fetch(
-                `${apiUrl}/turmas${id}`,
-                {
-                    method: "DELETE",
-                }
-            );
+            const response = await fetch(`${apiUrl}/turmas${id}`, {
+                method: "DELETE",
+            });
 
             if (response.ok) {
                 const result = await response.json();
@@ -116,7 +135,15 @@ export const DataProvider = ({ children }: DataProviderProps) => {
 
     return (
         <DataContext.Provider
-            value={{ data, handleChange, handleSubmit, handleDelete, formData, setFormEmpty }}
+            value={{
+                data,
+                handleChange,
+                handleSubmit,
+                handleDelete,
+                formData,
+                setFormEmpty,
+                saveApiUrl,
+            }}
         >
             {children}
         </DataContext.Provider>
