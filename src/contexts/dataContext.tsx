@@ -9,19 +9,6 @@ import {
 } from "react";
 import { Preferences } from "@capacitor/preferences";
 
-export const saveApiUrl = async (url: string) => {
-    await Preferences.set({
-        key: "api_url",
-        value: url,
-    });
-    console.log("URL da API salva com sucesso.");
-};
-
-const loadApiUrl = async () => {
-    const { value } = await Preferences.get({ key: "api_url" });
-    return value || "http://localhost:3000";
-};
-
 interface FormData {
     title: string;
     subtitle: string;
@@ -42,24 +29,50 @@ interface DataContextType {
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-const apiUrl = loadApiUrl();
-
 interface DataProviderProps {
     children: ReactNode;
 }
 
 export const DataProvider = ({ children }: DataProviderProps) => {
-    const [data, setData] = useState<any>(null);
-    const [count, setCount] = useState<number>(0);
+    const [data, setData] = useState(null);
+    const [apiUrl, setApiUrl] = useState(""); // Estado para a URL da API
+    const [count, setCount] = useState(0);
+
+    const saveApiUrl = async (url: string) => {
+        await Preferences.set({
+            key: "api_url",
+            value: url,
+        });
+        setApiUrl(url);
+    }
 
     useEffect(() => {
-        fetch(`${apiUrl}/turmas`)
-            .then((response) => response.json())
-            .then((data) => {
+        const loadApiUrl = async () => {
+            const { value } = await Preferences.get({ key: "api_url" });
+            setApiUrl(value || "http://localhost:3000");
+        };
+
+        loadApiUrl();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${apiUrl}/turmas`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
                 setData(data);
-            })
-            .catch((error) => console.error("Erro ao buscar os dados:", error));
-    }, [count]);
+            } catch (error) {
+                console.error("Erro ao buscar os dados:", error);
+            }
+        };
+
+        if (apiUrl) {
+            fetchData();
+        }
+    }, [apiUrl, count]);
 
     const [formData, setFormData] = useState<FormData>({
         title: "",

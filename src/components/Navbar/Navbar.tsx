@@ -14,6 +14,7 @@ import {
 import { personCircleOutline, ellipsisVertical } from "ionicons/icons";
 
 import Menu from "./Menu/Menu";
+import ApiModal from "./ApiModal/ApiModal";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -39,12 +40,19 @@ export default function Navbar() {
                             >
                                 <IonIcon icon={ellipsisVertical}></IonIcon>
                             </IonButton>
-                            <IonPopover trigger="triggerMenu" triggerAction="click">
-                                <IonButtons>
-                                    <IonButton className="ion-padding">Configurar a API URL</IonButton>
-                                </IonButtons>
-                            </IonPopover>
                         </IonButtons>
+                        <IonPopover trigger="triggerMenu" triggerAction="click">
+                            <IonButtons slot="start">
+                                <IonButton
+                                    className="ion-padding"
+                                    id="open-modal"
+                                    expand="block"
+                                >
+                                    Configurar a API URL
+                                </IonButton>
+                            </IonButtons>
+                            <ApiModal />
+                        </IonPopover>
                         <IonButtons slot="secondary">
                             <IonButton
                                 shape="round"
