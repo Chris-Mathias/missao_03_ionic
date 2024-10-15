@@ -58,12 +58,17 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${apiUrl}/turmas`);
+                console.log("1");
+                const response = await fetch(`${apiUrl}/turmas`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
+                console.log("2");
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
+                console.log("3");
                 const data = await response.json();
+                console.log("4");
                 setData(data);
+                console.log("5");
             } catch (error) {
                 console.error("Erro ao buscar os dados:", error);
             }

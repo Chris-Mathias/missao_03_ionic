@@ -13,7 +13,7 @@ import {
 
 import { useData } from "../../../contexts/dataContext";
 
-export default function Example() {
+export default function ApiModal() {
     const modal = useRef<HTMLIonModalElement>(null);
     const input = useRef<HTMLIonInputElement>(null);
     const { saveApiUrl } = useData();
