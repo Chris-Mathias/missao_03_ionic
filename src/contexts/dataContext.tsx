@@ -35,7 +35,7 @@ interface DataProviderProps {
 
 export const DataProvider = ({ children }: DataProviderProps) => {
     const [data, setData] = useState(null);
-    const [apiUrl, setApiUrl] = useState(""); // Estado para a URL da API
+    const [apiUrl, setApiUrl] = useState("");
     const [count, setCount] = useState(0);
 
     const saveApiUrl = async (url: string) => {
@@ -58,17 +58,12 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("1");
                 const response = await fetch(`${apiUrl}/turmas`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
-                console.log("2");
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                console.log("3");
                 const data = await response.json();
-                console.log("4");
                 setData(data);
-                console.log("5");
             } catch (error) {
                 console.error("Erro ao buscar os dados:", error);
             }
@@ -135,7 +130,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
 
     const handleDelete = async (id: number) => {
         try {
-            const response = await fetch(`${apiUrl}/turmas${id}`, {
+            const response = await fetch(`${apiUrl}/turmas/${id}`, {
                 method: "DELETE",
             });
 

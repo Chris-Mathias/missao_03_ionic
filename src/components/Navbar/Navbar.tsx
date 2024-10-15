@@ -15,7 +15,9 @@ import { personCircleOutline, ellipsisVertical } from "ionicons/icons";
 
 import Menu from "./Menu/Menu";
 import ApiModal from "./ApiModal/ApiModal";
+import ClassModal from "./ClassModal/ClassModal";
 import "./Navbar.css";
+import Grid from "../Grid/Grid";
 
 export default function Navbar() {
     return (
@@ -51,7 +53,17 @@ export default function Navbar() {
                                     Configurar a API URL
                                 </IonButton>
                             </IonButtons>
+                            <IonButtons slot="start">
+                                <IonButton
+                                    className="ion-padding"
+                                    id="open-class-modal"
+                                    expand="block"
+                                >
+                                    Adicionar nova turma
+                                </IonButton>
+                            </IonButtons>
                             <ApiModal />
+                            <ClassModal />
                         </IonPopover>
                         <IonButtons slot="secondary">
                             <IonButton
@@ -63,7 +75,9 @@ export default function Navbar() {
                         </IonButtons>
                     </IonToolbar>
                 </IonHeader>
-                <IonContent className="ion-padding"></IonContent>
+                <IonContent>
+                    <Grid />
+                </IonContent>
             </IonPage>
         </>
     );

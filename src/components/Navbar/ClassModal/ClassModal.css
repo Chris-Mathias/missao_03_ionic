@@ -1,0 +1,33 @@
+.classForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: calc(100vh - 64px);
+}
+
+.classLabel {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.classInput {
+    flex-shrink: 1;
+    appearance: none;
+    height: 3rem;
+    flex-grow: 1;
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 0.875rem;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    line-height: 2;
+    line-height: 1.5rem;
+    border-radius: var(--rounded-btn, 0.5rem);
+    border-width: 1px;
+    border-color: transparent;
+    --tw-bg-opacity: 1;
+    background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
+    border-color: gray;
+}
